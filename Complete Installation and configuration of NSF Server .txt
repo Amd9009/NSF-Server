@@ -1,0 +1,64 @@
+######################################################################################
+You need master node and client node. 
+######################################################################################
+
+--------------------------------------------------------------------------------------
+	**On master node you need to run following commands.**
+--------------------------------------------------------------------------------------
+
+		[root@master ~]# hostnamectl set-hostname master
+		[root@master ~]# systemctl stop firewalld
+		[root@master ~]# systemctl disable firewalld
+		[root@master ~]# vim /etc/selinux/config
+					
+			Change to  -	SELINUX=disabled    [before=enforcing]
+						
+				------------------------------------------
+				You can use any editor to run '/etc/hosts'
+				------------------------------------------
+		
+		[root@master ~]# vim /etc/hosts
+			
+			------------------------------------------------
+			add [Master and client ip addreses and hostname]
+			and [Ping to each other]
+			------------------------------------------------
+					
+		[root@master ~]# ssh-keygen         [Press 3 times Enter]
+		[root@master ~]# ssh-copy-id root@  [client hostname or ip]
+		[root@master ~]# ssh client         [Login and Exit]
+		[root@master ~]# yum install nfs-utils 
+		[root@master ~]# systemctl start nfs-server.service
+		[root@master ~]# systemctl status nfs-server.service
+		[root@master ~]# mkdir /root/home1/
+		[root@master ~]# vi /etc/exports
+               
+			   write this in empty file. 
+			   
+               ----------------------------------------
+                /root/home1/ *(rw,sync,no_root_squash)
+               ----------------------------------------
+                Save file
+				
+		[root@master ~]# systemctl restart nfs-server.service
+		[root@master ~]# cd /root/home1/
+		[root@master ~]# exports -arv 
+		[root@master ~]# netstat 
+		
+		
+		------------------------------------------------------------------------------
+			**On Client node you need to run following commands.**
+			 - set hostname of client node
+			 - stop firewalld
+			 - Disable selinux 
+		------------------------------------------------------------------------------
+		
+		[root@client ~]# mkdir home
+		[root@client ~]# showmount -e master
+		[root@client ~]# mount -t nfs master:/root/home /root/home
+		[root@client ~]# df -Th
+		[root@client ~]# vi /etc/fstab
+					
+			 -> Add line [Master's ip]:/root/home  /root/home	nfs	defaults	0 0
+
+		Save and Exit
