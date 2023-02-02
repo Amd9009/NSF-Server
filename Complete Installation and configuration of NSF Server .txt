@@ -20,7 +20,7 @@ You need master node and client node.
 		[root@master ~]# vim /etc/hosts
 			
 			------------------------------------------------
-			add [Master and client ip addreses and hostname]
+			add [Master and client ip addresses and hostname]
 			and [Ping to each other]
 			------------------------------------------------
 					
