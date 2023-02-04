@@ -59,6 +59,7 @@ You need master node and client node.
 		[root@client ~]# df -Th
 		[root@client ~]# vi /etc/fstab
 					
-			 -> Add line [Master's ip]:/root/home  /root/home	nfs	defaults	0 0
+		 Manually mount a remote NFS share  [Master's ip]:/root/home  /root/home	nfs	defaults	0 0
 
 		Save and Exit
+ #########################################################################################################
